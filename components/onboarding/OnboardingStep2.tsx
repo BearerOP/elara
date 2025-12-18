@@ -98,7 +98,7 @@ export default function OnboardingStep2({
         </div>
 
         {/* Options */}
-        <div className="flex flex-wrap gap-4">
+        <div className="flex flex-col md:flex-row gap-3 md:gap-4">
           {genderOptions.map((option, index) => {
             const isSelected = selectedGender === option.id
             return (
@@ -110,16 +110,16 @@ export default function OnboardingStep2({
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={() => onSelectGender(option.id)}
-                className={`relative flex flex-1 flex-col items-center justify-center gap-4 rounded-card border p-6 text-center ${isSelected ? 'border-text-primary bg-white/10' : 'border-white/10 bg-white/5'
+                className={`relative flex flex-1 flex-row md:flex-col items-center justify-start md:justify-center gap-4 rounded-card border p-4 md:p-6 text-left md:text-center ${isSelected ? 'border-text-primary bg-white/10' : 'border-white/10 bg-white/5'
                   }`}
               >
                 {/* Placeholder icon circle */}
-                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-white/10 text-text-primary">
-                  <span className="text-sm font-semibold">
+                <div className="flex h-10 w-10 md:h-12 md:w-12 flex-shrink-0 items-center justify-center rounded-full bg-white/10 text-text-primary">
+                  <span className="text-sm font-semibold [&>svg]:w-6 [&>svg]:h-6 md:[&>svg]:w-[34px] md:[&>svg]:h-[34px]">
                     {option.icon}
                   </span>
                 </div>
-                <div className="flex flex-col items-center gap-1">
+                <div className="flex flex-col items-start md:items-center gap-1">
                   <span className="text-base font-medium text-text-primary">
                     {option.label}
                   </span>

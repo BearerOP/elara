@@ -773,6 +773,11 @@ export default function ChatInterface({
         onTabChange={setActiveTab}
         chatHistories={chatHistories}
         onNewChat={handleNewChat}
+        onboardingState={onboardingState}
+        onOpenOnboarding={onOpenOnboarding}
+        wardrobeItemCount={wardrobeItemCount}
+        onRenameChat={handleRenameChat}
+        onDeleteChat={handleDeleteChat}
       />
 
       {/* Desktop Left Navigation Sidebar - Hidden on mobile */}

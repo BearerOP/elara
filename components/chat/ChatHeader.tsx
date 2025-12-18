@@ -37,9 +37,9 @@ export function ChatHeader({ credits, maxCredits }: ChatHeaderProps) {
             <h2 className="text-white font-medium text-xl" style={{ lineHeight: '1.26' }}>Elara Session</h2>
 
             {/* Action buttons */}
-            <button className="text-[#707070] hover:text-white transition-colors">
+            {/* <button className="text-[#707070] hover:text-white transition-colors">
               <ExternalLink className="h-4 w-4" />
-            </button>
+            </button> */}
             <button className="text-[#707070] hover:text-white transition-colors">
               <Star className="h-4 w-4" />
             </button>

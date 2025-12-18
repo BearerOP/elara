@@ -23,49 +23,28 @@ type ToneRow = {
 
 const toneRows: ToneRow[] = [
   {
-    id: 'warm-1',
+    id: 'warm',
     label: 'WARM',
-    swatches: ['#ECCAAA', '#EFD4B6', '#D8BB91', '#E2AD98'],
+    swatches: [
+      '#ECCAAA', '#EFD4B6', '#D8BB91', '#E2AD98', '#AA7537',
+      '#D3AB79', '#966040', '#62340F', '#522A08', '#422408'
+    ],
   },
   {
-    id: 'warm-2',
-    label: '',
-    swatches: ['#AA7537', '#D3AB79', '#966040', '#62340F'],
-  },
-  {
-    id: 'warm-3',
-    label: '',
-    swatches: ['#522A08', '#422408'],
-  },
-  {
-    id: 'cool-1',
+    id: 'cool',
     label: 'COOL',
-    swatches: ['#FAEFEC', '#FEE3EE', '#FFE6E7', '#E3C6C2'],
+    swatches: [
+      '#FAEFEC', '#FEE3EE', '#FFE6E7', '#E3C6C2', '#C29081',
+      '#DABABA', '#977160', '#613A31', '#482422', '#2E1416'
+    ],
   },
   {
-    id: 'cool-2',
-    label: '',
-    swatches: ['#C29081', '#DABABA', '#977160', '#613A31'],
-  },
-  {
-    id: 'cool-3',
-    label: '',
-    swatches: ['#482422', '#2E1416'],
-  },
-  {
-    id: 'neutral-1',
+    id: 'neutral',
     label: 'NEUTRAL',
-    swatches: ['#EDD9D4', '#EFD1C2', '#D3B1A1', '#F2D9C8'],
-  },
-  {
-    id: 'neutral-2',
-    label: '',
-    swatches: ['#D9A094', '#DCBBA6', '#AC7B65', '#61301C'],
-  },
-  {
-    id: 'neutral-3',
-    label: '',
-    swatches: ['#402216', '#270F08'],
+    swatches: [
+      '#EDD9D4', '#EFD1C2', '#D3B1A1', '#F2D9C8', '#D9A094',
+      '#DCBBA6', '#AC7B65', '#61301C', '#402216', '#270F08'
+    ],
   },
 ]
 
@@ -161,7 +140,7 @@ export default function OnboardingStep3({
       )}
 
       {/* Header Section (shared layout with previous steps) */}
-      <div className="flex flex-col gap-8 px-8 pt-16">
+      <div className="flex flex-col gap-4 px-8 pt-16">
         <div className="flex flex-col items-center gap-6">
           <div className="flex flex-col items-center gap-1.5">
             <Logo size="lg" />
@@ -193,13 +172,13 @@ export default function OnboardingStep3({
         </div>
 
         {/* Swatch grid */}
-        <div className="mt-4 flex flex-col gap-4">
+        <div className="mt-4 flex flex-col gap-3 md:gap-4">
           {toneRows.map((row) => (
-            <div key={row.id} className="flex items-center justify-center gap-5">
-              <span className="w-16 text-right text-sm font-medium tracking-[0.18em] text-white/60">
+            <div key={row.id} className="flex items-center justify-center gap-3 md:gap-5">
+              <span className="w-14 md:w-16 text-right text-xs md:text-sm font-medium tracking-[0.18em] text-white/60 flex-shrink-0">
                 {row.label}
               </span>
-              <div className="flex flex-wrap gap-3">
+              <div className="grid grid-cols-5 md:grid-cols-10 gap-2 md:gap-3 justify-start">
                 {row.swatches.map((color, index) => {
                   const id = `${row.id}-${index}`
                   const isSelected = selectedTone === id
@@ -211,11 +190,11 @@ export default function OnboardingStep3({
                         setSelectedTone(id)
                         onSelectBodyShape?.(id)
                       }}
-                      className="relative h-8 w-8 rounded-full"
+                      className="relative h-6 w-6 md:h-8 md:w-8 rounded-full flex-shrink-0"
                       style={{ backgroundColor: color }}
                     >
                       {isSelected && (
-                        <span className="absolute inset-[-3px] rounded-full border-2 border-white" />
+                        <span className="absolute inset-[-2px] md:inset-[-3px] rounded-full border-2 border-white" />
                       )}
                     </button>
                   )
@@ -226,7 +205,7 @@ export default function OnboardingStep3({
         </div>
 
         {/* Divider + Upload CTA */}
-        <div className="mt-8 flex flex-col items-center gap-4">
+        <div className="mt-2 flex flex-col items-center gap-3">
           <div className="flex w-full items-center gap-3">
             <div className="flex-1 border-t border-white/10" />
             <span className="text-xs font-medium uppercase tracking-[0.25em] text-white/40">
@@ -246,7 +225,7 @@ export default function OnboardingStep3({
           <Button
             variant="secondary"
             onClick={handleUploadClick}
-            className="flex items-center gap-2 rounded-2xl border-white/10 bg-white/5 px-5 py-2 text-sm font-medium text-white"
+            className="flex items-center gap-2 rounded-2xl border-white/10 bg-white/5 px-5 py-2 text-sm font-medium text-white border hover:bg-white/10 hover:border-white/20"
           >
             {/* Simple upload icon */}
 
@@ -327,29 +306,30 @@ export default function OnboardingStep3({
 
               </defs>
             </svg>
-            Upload a picture
+            {uploadedImage ? 'Replace picture' : 'Upload a picture'}
           </Button>
 
+
           {uploadedImage && (
-            <div className="mt-4 w-full max-w-xs">
+            <div className="mt-3 w-full max-w-xs">
               <div className="group relative overflow-hidden rounded-2xl border border-white/10 bg-black/40">
                 <img
                   src={uploadedImage.previewUrl}
                   alt={uploadedImage.name}
                   className="h-32 w-full object-cover"
                 />
-                {/* Hover overlay with name + delete */}
-                <div className="pointer-events-none absolute inset-0 flex flex-col justify-between bg-black/0 opacity-0 transition-all duration-200 group-hover:bg-black/40 group-hover:opacity-100">
+                {/* Overlay with name + delete (always visible) */}
+                <div className="pointer-events-auto absolute inset-0 flex flex-col justify-between bg-black/40">
                   <div className="flex items-start justify-end p-2">
                     <button
                       type="button"
-                      className="pointer-events-auto inline-flex h-6 w-6 items-center justify-center rounded-full bg-black/70 text-white/80 hover:bg-black hover:text-white text-xs"
+                      className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-black/70 text-white/80 hover:bg-black hover:text-white text-xs backdrop-blur-sm"
                       onClick={handleRemoveImage}
                     >
                       ✕
                     </button>
                   </div>
-                  <div className="pointer-events-auto bg-gradient-to-t from-black/80 via-black/40 to-transparent px-3 pb-3 pt-6 text-xs font-medium text-white">
+                  <div className="bg-gradient-to-t from-black/90 via-black/60 to-transparent px-3 pb-3 pt-6 text-xs font-medium text-white">
                     <div className="truncate">{uploadedImage.name}</div>
                   </div>
                 </div>

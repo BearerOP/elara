@@ -366,7 +366,7 @@ export default function OnboardingModal({
           }}
         >
           <div
-            className="overflow-y-auto overflow-x-hidden relative"
+            className="overflow-x-hidden relative"
             style={{ maxHeight: '90vh', position: 'relative' }}
           >
             {/* Step 1 */}

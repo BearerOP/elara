@@ -105,7 +105,7 @@ export function MobileSidebar({
                         animate={{ x: 0 }}
                         exit={{ x: '-100%' }}
                         transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-                        className="lg:hidden fixed left-0 top-0 bottom-0 w-[268px] bg-[#0E0E0E] z-50 flex flex-col"
+                        className="lg:hidden fixed left-0 top-0 bottom-0 w-[268px] bg-[#0E0E0E] z-50 flex flex-col rounded-r-2xl"
                     >
                         {/* Header with Logo and Close */}
                         <div className="flex items-center justify-between px-5 py-6">

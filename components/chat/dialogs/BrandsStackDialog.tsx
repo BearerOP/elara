@@ -64,7 +64,7 @@ export function BrandsStackDialog({
                             </div>
 
                             {/* Content */}
-                            <div className="p-8 flex-1 overflow-y-auto">
+                            <div className="p-8 h-[300px] flex flex-col justify-center">
                                 <p className="text-white/60 text-sm mb-6">
                                     Brand selection coming soon! This feature will allow you to swipe through brands and save your preferences.
                                 </p>

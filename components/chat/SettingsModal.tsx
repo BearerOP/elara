@@ -254,12 +254,12 @@ export function SettingsModal({ isOpen, onClose }: SettingsModalProps) {
                             <div className='py-2 flex items-center justify-between '>
                               {/* Color Analysis */}
                               <div className="">
-                                <label className="text-sm font-medium text-white block cursor-pointer">Color Analysis</label>
+                                <label className="text-sm font-medium text-white block">Color Analysis</label>
                               </div>
                               <div className="flex items-center gap-2 opacity-90">
                                 <button
                                   onClick={() => setColorDialogOpen(true)}
-                                  className="py-2 border border-white/10  hover:bg-white/5 rounded-lg px-2 transition-colors cursor-pointer"
+                                  className="py-2 border border-white/10  hover:bg-white/5 rounded-lg px-2 transition-colors cursor-pointer flex justify-between items-center p-2 gap-2"
                                 >
                                   {settings.colorAnalysis ? (
                                     <>
@@ -275,9 +275,9 @@ export function SettingsModal({ isOpen, onClose }: SettingsModalProps) {
 
 
                             {/* Body Shape */}
-                            <div className="py-2 pb-5 border-b border-white/10 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+                            <div className="py-2 pb-5 border-b border-white/10 flex justify-between items-center gap-3">
                               <div className="">
-                                <label className="text-sm font-medium text-white block">Body Shape</label>
+                                <label className="text-sm font-medium text-white">Body Shape</label>
                               </div>
                               <div className="opacity-90">
                                 <Menu>
@@ -301,7 +301,7 @@ export function SettingsModal({ isOpen, onClose }: SettingsModalProps) {
                                 <div className="flex items-center  gap-6 opacity-90">
                                   <button
                                     onClick={() => setHeightWeightDialogOpen(true)}
-                                    className="py-2 flex items-center justify-between "
+                                    className="py-2 flex items-center justify-between bg-white/10 border border-white/20 rounded-lg px-2"
                                   >
                                     {settings.heightUnit === 'ft' ? (
                                       <>

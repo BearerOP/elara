@@ -94,19 +94,19 @@ export function ColorAnalysisDialog({
                             </div>
 
                             {/* Content */}
-                            <div className="p-8 flex-1 overflow-y-auto">
-                                <p className="text-white/60 text-sm mb-6">
+                            <div className="p-4 md:p-8 h-[320px] md:h-[280px] flex flex-col">
+                                <p className="text-white/60 text-sm mb-4 md:mb-6">
                                     Choose the tone that best matches your skin undertones. This helps us recommend colors that complement you best.
                                 </p>
 
                                 {/* Swatch grid */}
-                                <div className="flex flex-col gap-4">
+                                <div className="flex flex-col gap-3 md:gap-4">
                                     {toneRows.map((row) => (
-                                        <div key={row.id} className="flex items-center gap-5">
-                                            <span className="w-20 text-right text-sm font-medium tracking-[0.18em] text-white/60">
+                                        <div key={row.id} className="flex items-center gap-2 md:gap-5">
+                                            <span className="w-16 md:w-20 text-right text-xs md:text-sm font-medium tracking-[0.18em] text-white/60 flex-shrink-0">
                                                 {row.label}
                                             </span>
-                                            <div className="flex flex-wrap gap-3">
+                                            <div className="flex flex-wrap gap-2 md:gap-3">
                                                 {row.swatches.map((color, index) => {
                                                     const id = `${row.id}-${index}`
                                                     const isSelected = localSelected === id
@@ -115,11 +115,11 @@ export function ColorAnalysisDialog({
                                                             key={id}
                                                             type="button"
                                                             onClick={() => handleSelect(id)}
-                                                            className="relative h-10 w-10 rounded-full transition-transform hover:scale-110"
+                                                            className="relative h-8 w-8 md:h-10 md:w-10 rounded-full transition-transform hover:scale-110 flex-shrink-0"
                                                             style={{ backgroundColor: color }}
                                                         >
                                                             {isSelected && (
-                                                                <span className="absolute inset-[-3px] rounded-full border-2 border-white" />
+                                                                <span className="absolute inset-[-2px] md:inset-[-3px] rounded-full border-2 border-white" />
                                                             )}
                                                         </button>
                                                     )

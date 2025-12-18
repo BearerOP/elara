@@ -201,13 +201,13 @@ export function HeightWeightDialog({
                             </div>
 
                             {/* Content */}
-                            <div className="p-8 flex-1 overflow-y-auto">
-                                <div className="flex flex-col gap-6">
-                                    <div className="flex gap-4">
+                            <div className="p-4 md:p-8 h-[280px] md:h-[240px]">
+                                <div className="flex flex-col gap-4 md:gap-6">
+                                    <div className="flex flex-col md:flex-row gap-4">
                                         {/* Height */}
-                                        <div className="flex-1 rounded-card bg-[#202020] p-5">
-                                            <div className="mb-5 flex items-center justify-between">
-                                                <span className="text-lg font-medium text-text-primary">Height</span>
+                                        <div className="flex-1 rounded-card bg-[#202020] p-3 md:p-5">
+                                            <div className="mb-3 md:mb-5 flex items-center justify-between">
+                                                <span className="text-base md:text-lg font-medium text-text-primary">Height</span>
                                                 <div className="flex items-center gap-2">
                                                     <button
                                                         type="button"
@@ -277,7 +277,7 @@ export function HeightWeightDialog({
                                                                     initial={heightFeetKey > 0 ? { opacity: 0, y: 20, filter: 'blur(4px)' } : false}
                                                                     animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
                                                                     transition={{ duration: 0.3, ease: 'easeOut' }}
-                                                                    className="w-12 bg-transparent text-2xl font-semibold text-text-primary outline-none border-none"
+                                                                    className="w-10 md:w-12 bg-transparent text-xl md:text-2xl font-semibold text-text-primary outline-none border-none"
                                                                 />
                                                                 <span className="text-2xl font-semibold text-text-primary pointer-events-none ml-1">
                                                                     ft
@@ -395,7 +395,7 @@ export function HeightWeightDialog({
                                                                 initial={heightCmKey > 0 ? { opacity: 0, y: 20, filter: 'blur(4px)' } : false}
                                                                 animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
                                                                 transition={{ duration: 0.3, ease: 'easeOut' }}
-                                                                className="w-14 bg-transparent text-2xl font-semibold text-text-primary outline-none border-none"
+                                                                className="w-12 md:w-14 bg-transparent text-xl md:text-2xl font-semibold text-text-primary outline-none border-none"
                                                             />
                                                             <span className="text-2xl font-semibold text-text-primary pointer-events-none ml-1">
                                                                 cm
@@ -427,9 +427,9 @@ export function HeightWeightDialog({
                                         </div>
 
                                         {/* Weight */}
-                                        <div className="flex-1 rounded-card bg-[#202020] p-5">
-                                            <div className="mb-5 flex items-center justify-between">
-                                                <span className="text-lg font-medium text-text-primary">Weight</span>
+                                        <div className="flex-1 rounded-card bg-[#202020] p-3 md:p-5">
+                                            <div className="mb-3 md:mb-5 flex items-center justify-between">
+                                                <span className="text-base md:text-lg font-medium text-text-primary">Weight</span>
                                                 <div className="flex items-center gap-2">
                                                     <button
                                                         type="button"

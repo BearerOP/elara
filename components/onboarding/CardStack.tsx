@@ -158,10 +158,10 @@ export default function CardStack({
   }
 
   return (
-    <div className="relative flex h-full items-center justify-center gap-6">
+    <div className="relative flex h-full items-center  justify-center gap-6 w-full ">
       {/* Left Arrow Button */}
       {showArrows && (
-        <div className="flex flex-col items-center gap-1.5">
+        <div className="hidden md:flex flex-col items-center gap-1.5">
           <motion.div
             initial={{ opacity: 0, x: -10 }}
             animate={{ opacity: 1, x: 0 }}
@@ -183,7 +183,7 @@ export default function CardStack({
       )}
 
       {/* Card Stack */}
-      <div className="relative flex-1 w-full md:max-w-[280px] h-[360px]">
+      <div className="relative flex-1 w-full -left-6  max-w-[180px] h-[300px]">
         {visibleCards.map((card, stackIndex) => {
           const isTopCard = stackIndex === 0
           const scale = 1 - stackIndex * 0.1
@@ -206,7 +206,7 @@ export default function CardStack({
               key={card.id}
               ref={isTopCard ? cardRef : null}
               className={cn(
-                'absolute inset-0 rounded-3xl overflow-hidden transform-gpu transition-all duration-300 ease-in-out',
+                'absolute inset-0 rounded-3xl overflow-hidden transform-gpu transition-all duration-300 ease-in-out w-full min-w-[240px]',
                 isBrand
                   ? 'bg-white border border-white/10 shadow-[0_8px_20px_rgba(0,0,0,0.12)]'
                   : 'bg-gradient-to-br from-white/40 via-neutral-50/30 to-neutral-100/20 dark:from-neutral-800/40 dark:via-neutral-900/30 dark:to-black/20 border border-white/2 before:absolute before:inset-0 before:rounded-3xl before:bg-gradient-to-b before:from-white/20 before:via-neutral-100/10 before:to-transparent dark:before:from-white/5 dark:before:via-neutral-500/5 dark:before:to-transparent before:opacity-100 before:transition-opacity before:duration-500 after:absolute after:inset-0 after:rounded-3xl after:bg-gradient-to-br after:from-white/80 after:to-neutral-100/70 dark:after:from-neutral-900/80 dark:after:to-black/70 after:z-[-1] after:blur-xl backdrop-blur-xl backdrop-saturate-150 shadow-[0_8px_20px_rgb(0,0,0,0.08)] dark:shadow-[0_8px_20px_rgb(0,0,0,0.3)] hover:border-white/10 hover:shadow-[0_12px_40px_rgb(0,0,0,0.12)] dark:hover:shadow-[0_12px_40px_rgb(0,0,0,0.4)] hover:backdrop-blur-2xl hover:bg-gradient-to-br hover:from-white/50 hover:via-neutral-50/40 hover:to-neutral-100/30 dark:hover:from-neutral-800/50 dark:hover:via-neutral-900/40 dark:hover:to-black/30',
@@ -326,7 +326,7 @@ export default function CardStack({
 
       {/* Right Arrow Button */}
       {showArrows && (
-        <div className="flex flex-col items-center gap-1.5">
+        <div className="hidden md:flex flex-col items-center gap-1.5">
           <motion.div
             initial={{ opacity: 0, x: 10 }}
             animate={{ opacity: 1, x: 0 }}

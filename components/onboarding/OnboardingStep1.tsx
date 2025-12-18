@@ -82,7 +82,7 @@ export default function OnboardingStep1({
         </div>
 
         {/* Options */}
-        <div className="flex flex-wrap gap-4">
+        <div className="flex flex-col md:flex-row gap-3 md:gap-4">
           {options.map((option, index) => {
             const isSelected = selectedOptions.includes(option.id)
             return (
@@ -95,7 +95,7 @@ export default function OnboardingStep1({
                 whileTap={{ scale: 0.98 }}
                 onClick={() => onSelectOption(option.id)}
                 className={`
-                  relative flex flex-1 flex-col gap-10 rounded-card border p-5
+                  relative flex flex-1 flex-row md:flex-col items-center md:items-start gap-4 md:gap-10 rounded-card border p-4 md:p-5
                   ${isSelected
                     ? 'border-white/30 bg-white/10'
                     : 'border-white/10 bg-white/5'
@@ -114,20 +114,20 @@ export default function OnboardingStep1({
                   </motion.div>
                 )}
 
-                <div className="flex flex-col items-start gap-2">
+                <div className="flex flex-row md:flex-col items-center md:items-start w-full gap-4 md:gap-2">
                   {/* Icon */}
-                  <div className="flex h-10 w-10 items-start justify-center">
-                    {option.icon === 'closet' && <ClosetIcon width={32} height={32} />}
-                    {option.icon === 'growth' && <GrowthIcon width={54} height={47} />}
-                    {option.icon === 'shopping' && <ShoppingIcon width={32} height={32} />}
+                  <div className="flex h-8 w-8 md:h-10 md:w-10 items-center justify-center flex-shrink-0">
+                    {option.icon === 'closet' && <ClosetIcon className="w-6 h-6 md:w-8 md:h-8" />}
+                    {option.icon === 'growth' && <GrowthIcon className="w-8 h-7 md:w-[54px] md:h-[47px]" />}
+                    {option.icon === 'shopping' && <ShoppingIcon className="w-6 h-6 md:w-8 md:h-8" />}
                   </div>
 
                   {/* Content */}
-                  <div className="flex flex-col items-start gap-1">
-                    <h3 className="text-base font-medium leading-[1.25] text-text-primary">
+                  <div className="flex flex-col items-start gap-0.5 md:gap-1 flex-1">
+                    <h3 className="text-base font-medium leading-[1.25] text-text-primary text-left">
                       {option.title}
                     </h3>
-                    <p className="text-sm font-normal leading-[1.29] text-text-quaternary text-left">
+                    <p className="text-sm font-normal leading-[1.29] text-text-quaternary text-left pr-6 md:pr-0">
                       {option.description}
                     </p>
                   </div>

@@ -121,6 +121,7 @@ export default function OnboardingStep5({
       })
     }
   }, [heightUnit, weightUnit, heightFeet, heightInches, heightCm, weightKg, weightLbs, selectedFit, onDataChange])
+
   const [heightKey, setHeightKey] = React.useState(0)
   const [weightKey, setWeightKey] = React.useState(0)
   const [heightFeetKey, setHeightFeetKey] = React.useState(0)
@@ -301,10 +302,21 @@ export default function OnboardingStep5({
   }
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col relative">
+      {/* Back Button - Top Left */}
+      {onBack && (
+        <button
+          onClick={onBack}
+          className="absolute top-4 left-4 md:top-6 md:left-6 z-10 p-2 text-text-secondary hover:text-text-primary transition-colors flex items-center gap-1 group"
+        >
+          <ChevronLeftIcon className="size-5" />
+          <span className="text-sm font-medium">Back</span>
+        </button>
+      )}
+
       {/* Header Section */}
-      <div className="flex flex-col gap-8 px-4 md:px-8 pt-8 md:pt-16">
-        <div className="flex flex-col items-center gap-6">
+      <div className="flex flex-col gap-4 px-4 md:px-8 pt-4 md:pt-8">
+        <div className="flex flex-col items-center gap-3">
           <Logo size="lg" />
           <motion.div
             layoutId="onboarding-step-pill"
@@ -316,7 +328,7 @@ export default function OnboardingStep5({
           </motion.div>
         </div>
 
-        <div className="flex flex-col items-center gap-1.5">
+        <div className="flex flex-col items-center gap-1">
           <motion.h2
             layoutId="onboarding-title"
             className="text-center text-lg font-medium leading-[1.56] text-text-primary"
@@ -334,17 +346,17 @@ export default function OnboardingStep5({
       </div>
 
       {/* Height and Weight Inputs */}
-      <div className="mt-8 flex flex-col gap-6 px-4 md:px-8">
-        <div className="flex flex-col md:flex-row gap-4">
+      <div className="mt-4 flex flex-col gap-3 px-4 md:px-8">
+        <div className="flex flex-col md:flex-row gap-3">
           {/* Height */}
-          <div className="flex-1 rounded-card bg-[#202020] p-5">
-            <div className="mb-5 flex items-center justify-between">
-              <span className="text-lg font-medium text-text-primary">Height</span>
-              <div className="flex items-center gap-2">
+          <div className="flex-1 rounded-card bg-[#202020] p-3 md:p-4">
+            <div className="mb-3 md:mb-4 flex items-center justify-between">
+              <span className="text-base md:text-lg font-medium text-text-primary">Height</span>
+              <div className="flex items-center gap-1.5 md:gap-2">
                 <button
                   type="button"
                   onClick={() => handleHeightUnitChange('cm')}
-                  className={`px-2 py-1 text-sm transition-colors ${heightUnit === 'cm' ? 'text-text-primary' : 'text-text-secondary'
+                  className={`px-1.5 md:px-2 py-0.5 md:py-1 text-xs md:text-sm transition-colors ${heightUnit === 'cm' ? 'text-text-primary' : 'text-text-secondary'
                     }`}
                 >
                   cm
@@ -352,18 +364,18 @@ export default function OnboardingStep5({
                 <button
                   type="button"
                   onClick={() => handleHeightUnitChange(heightUnit === 'ft' ? 'cm' : 'ft')}
-                  className={`relative h-6 w-11 rounded-full transition-colors duration-200 ${heightUnit === 'ft' ? 'bg-[#7F56D9]' : 'bg-gray-400/30'
+                  className={`relative h-5 w-9 md:h-6 md:w-11 rounded-full transition-colors duration-200 ${heightUnit === 'ft' ? 'bg-[#7F56D9]' : 'bg-gray-400/30'
                     }`}
                 >
                   <span
-                    className={`absolute top-0.5 left-0.5 h-5 w-5 rounded-full bg-white transition-transform duration-200 ${heightUnit === 'ft' ? 'translate-x-5' : 'translate-x-0'
+                    className={`absolute top-0.5 left-0.5 h-4 w-4 md:h-5 md:w-5 rounded-full bg-white transition-transform duration-200 ${heightUnit === 'ft' ? 'translate-x-4 md:translate-x-5' : 'translate-x-0'
                       }`}
                   />
                 </button>
                 <button
                   type="button"
                   onClick={() => handleHeightUnitChange('ft')}
-                  className={`px-2 py-1 text-sm transition-colors ${heightUnit === 'ft' ? 'text-text-primary' : 'text-text-secondary'
+                  className={`px-1.5 md:px-2 py-0.5 md:py-1 text-xs md:text-sm transition-colors ${heightUnit === 'ft' ? 'text-text-primary' : 'text-text-secondary'
                     }`}
                 >
                   ft
@@ -378,10 +390,10 @@ export default function OnboardingStep5({
                   animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
                   exit={{ opacity: 0, y: -20, filter: 'blur(4px)' }}
                   transition={{ duration: 0.3, ease: 'easeOut' }}
-                  className="flex gap-6"
+                  className="flex gap-4 md:gap-6"
                 >
-                  <div className="flex items-center gap-2">
-                    <div className="relative h-12 flex items-center">
+                  <div className="flex items-center gap-1.5 md:gap-2">
+                    <div className="relative h-10 md:h-12 flex items-center">
                       <motion.input
                         key={`height-feet-${heightFeetKey}`}
                         type="number"
@@ -405,19 +417,19 @@ export default function OnboardingStep5({
                         initial={heightFeetKey > 0 ? { opacity: 0, y: 20, filter: 'blur(4px)' } : false}
                         animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
                         transition={{ duration: 0.3, ease: 'easeOut' }}
-                        className="w-12 bg-transparent text-2xl font-semibold text-text-primary outline-none border-none"
+                        className="w-10 md:w-12 bg-transparent text-xl md:text-2xl font-semibold text-text-primary outline-none border-none"
                       />
-                      <span className="text-2xl font-semibold text-text-primary pointer-events-none ml-1">
+                      <span className="text-xl md:text-2xl font-semibold text-text-primary pointer-events-none ml-0.5 md:ml-1">
                         ft
                       </span>
                     </div>
-                    <div className="flex flex-col gap-1">
+                    <div className="flex flex-col gap-0.5 md:gap-1">
                       <button
                         type="button"
                         onClick={() => handleHeightIncrement('feet')}
                         className="text-text-primary hover:opacity-80 transition-opacity"
                       >
-                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+                        <svg className="w-6 h-6 md:w-7 md:h-7" viewBox="0 0 24 24" fill="none">
                           <path
                             d="M12 8L8 12H16L12 8Z"
                             fill="currentColor"
@@ -430,7 +442,7 @@ export default function OnboardingStep5({
                         onClick={() => handleHeightDecrement('feet')}
                         className="text-text-primary hover:opacity-80 transition-opacity"
                       >
-                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+                        <svg className="w-6 h-6 md:w-7 md:h-7" viewBox="0 0 24 24" fill="none">
                           <path
                             d="M12 16L8 12H16L12 16Z"
                             fill="currentColor"
@@ -440,8 +452,8 @@ export default function OnboardingStep5({
                       </button>
                     </div>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <div className="relative h-12 flex items-center">
+                  <div className="flex items-center gap-1.5 md:gap-2">
+                    <div className="relative h-10 md:h-12 flex items-center">
                       <motion.input
                         key={`height-inches-${heightInchesKey}`}
                         type="number"
@@ -461,19 +473,19 @@ export default function OnboardingStep5({
                         initial={heightInchesKey > 0 ? { opacity: 0, y: 20, filter: 'blur(4px)' } : false}
                         animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
                         transition={{ duration: 0.3, ease: 'easeOut' }}
-                        className="w-12 bg-transparent text-2xl font-semibold text-text-primary outline-none border-none"
+                        className="w-10 md:w-12 bg-transparent text-xl md:text-2xl font-semibold text-text-primary outline-none border-none"
                       />
-                      <span className="text-2xl font-semibold text-text-primary pointer-events-none ml-1">
+                      <span className="text-xl md:text-2xl font-semibold text-text-primary pointer-events-none ml-0.5 md:ml-1">
                         inch
                       </span>
                     </div>
-                    <div className="flex flex-col gap-1">
+                    <div className="flex flex-col gap-0.5 md:gap-1">
                       <button
                         type="button"
                         onClick={() => handleHeightIncrement('inches')}
                         className="text-text-primary hover:opacity-80 transition-opacity"
                       >
-                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+                        <svg className="w-6 h-6 md:w-7 md:h-7" viewBox="0 0 24 24" fill="none">
                           <path
                             d="M12 8L8 12H16L12 8Z"
                             fill="currentColor"
@@ -486,7 +498,7 @@ export default function OnboardingStep5({
                         onClick={() => handleHeightDecrement('inches')}
                         className="text-text-primary hover:opacity-80 transition-opacity"
                       >
-                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+                        <svg className="w-6 h-6 md:w-7 md:h-7" viewBox="0 0 24 24" fill="none">
                           <path
                             d="M12 16L8 12H16L12 16Z"
                             fill="currentColor"
@@ -504,9 +516,9 @@ export default function OnboardingStep5({
                   animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
                   exit={{ opacity: 0, y: -20, filter: 'blur(4px)' }}
                   transition={{ duration: 0.3, ease: 'easeOut' }}
-                  className="flex items-center gap-2"
+                  className="flex items-center gap-1.5 md:gap-2"
                 >
-                  <div className="relative h-12 flex items-center">
+                  <div className="relative h-10 md:h-12 flex items-center">
                     <motion.input
                       key={`height-cm-${heightCmKey}`}
                       type="number"
@@ -530,19 +542,19 @@ export default function OnboardingStep5({
                       initial={heightCmKey > 0 ? { opacity: 0, y: 20, filter: 'blur(4px)' } : false}
                       animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
                       transition={{ duration: 0.3, ease: 'easeOut' }}
-                      className="w-14 bg-transparent text-2xl font-semibold text-text-primary outline-none border-none"
+                      className="w-12 md:w-14 bg-transparent text-xl md:text-2xl font-semibold text-text-primary outline-none border-none"
                     />
-                    <span className="text-2xl font-semibold text-text-primary pointer-events-none ml-1">
+                    <span className="text-xl md:text-2xl font-semibold text-text-primary pointer-events-none ml-0.5 md:ml-1">
                       cm
                     </span>
                   </div>
-                  <div className="flex flex-col gap-1">
+                  <div className="flex flex-col gap-0.5 md:gap-1">
                     <button
                       type="button"
                       onClick={() => handleHeightIncrement('cm')}
                       className="text-text-primary hover:opacity-80 transition-opacity"
                     >
-                      <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+                      <svg className="w-6 h-6 md:w-7 md:h-7" viewBox="0 0 24 24" fill="none">
                         <path
                           d="M12 8L8 12H16L12 8Z"
                           fill="currentColor"
@@ -555,7 +567,7 @@ export default function OnboardingStep5({
                       onClick={() => handleHeightDecrement('cm')}
                       className="text-text-primary hover:opacity-80 transition-opacity"
                     >
-                      <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+                      <svg className="w-6 h-6 md:w-7 md:h-7" viewBox="0 0 24 24" fill="none">
                         <path
                           d="M12 16L8 12H16L12 16Z"
                           fill="currentColor"
@@ -570,14 +582,14 @@ export default function OnboardingStep5({
           </div>
 
           {/* Weight */}
-          <div className="flex-1 rounded-card bg-[#202020] p-5">
-            <div className="mb-5 flex items-center justify-between">
-              <span className="text-lg font-medium text-text-primary">Weight</span>
-              <div className="flex items-center gap-2">
+          <div className="flex-1 rounded-card bg-[#202020] p-3 md:p-4">
+            <div className="mb-3 md:mb-4 flex items-center justify-between">
+              <span className="text-base md:text-lg font-medium text-text-primary">Weight</span>
+              <div className="flex items-center gap-1.5 md:gap-2">
                 <button
                   type="button"
                   onClick={() => handleWeightUnitChange('lbs')}
-                  className={`px-2 py-1 text-sm transition-colors ${weightUnit === 'lbs' ? 'text-text-primary' : 'text-text-secondary'
+                  className={`px-1.5 md:px-2 py-0.5 md:py-1 text-xs md:text-sm transition-colors ${weightUnit === 'lbs' ? 'text-text-primary' : 'text-text-secondary'
                     }`}
                 >
                   lbs
@@ -585,18 +597,18 @@ export default function OnboardingStep5({
                 <button
                   type="button"
                   onClick={() => handleWeightUnitChange(weightUnit === 'kg' ? 'lbs' : 'kg')}
-                  className={`relative h-6 w-11 rounded-full transition-colors duration-200 ${weightUnit === 'kg' ? 'bg-[#7F56D9]' : 'bg-gray-400/30'
+                  className={`relative h-5 w-9 md:h-6 md:w-11 rounded-full transition-colors duration-200 ${weightUnit === 'kg' ? 'bg-[#7F56D9]' : 'bg-gray-400/30'
                     }`}
                 >
                   <span
-                    className={`absolute top-0.5 left-0.5 h-5 w-5 rounded-full bg-white transition-transform duration-200 ${weightUnit === 'kg' ? 'translate-x-5' : 'translate-x-0'
+                    className={`absolute top-0.5 left-0.5 h-4 w-4 md:h-5 md:w-5 rounded-full bg-white transition-transform duration-200 ${weightUnit === 'kg' ? 'translate-x-4 md:translate-x-5' : 'translate-x-0'
                       }`}
                   />
                 </button>
                 <button
                   type="button"
                   onClick={() => handleWeightUnitChange('kg')}
-                  className={`px-2 py-1 text-sm transition-colors ${weightUnit === 'kg' ? 'text-text-primary' : 'text-text-secondary'
+                  className={`px-1.5 md:px-2 py-0.5 md:py-1 text-xs md:text-sm transition-colors ${weightUnit === 'kg' ? 'text-text-primary' : 'text-text-secondary'
                     }`}
                 >
                   kg
@@ -704,11 +716,20 @@ export default function OnboardingStep5({
         </div>
 
         {/* Fit Preference */}
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-3">
           <span className="text-lg font-medium text-text-primary">Your fit preference</span>
-          <div className="flex flex-wrap gap-4">
+          <div className="flex flex-wrap gap-3">
             {fitOptions.map((option, index) => {
               const isSelected = selectedFit === option.id
+              // Mobile: First two cards take half width, third card takes full width
+              // Desktop: All three cards take equal width (flex-1)
+              const widthClass = index < 2
+                ? 'flex-1 min-w-[calc(50%-0.375rem)] md:min-w-0'
+                : 'w-full md:w-auto md:flex-1'
+
+              // Third card (Loose) has horizontal layout, first two are vertical
+              const isLooseCard = index === 2
+
               return (
                 <motion.button
                   key={option.id}
@@ -719,13 +740,46 @@ export default function OnboardingStep5({
                   whileTap={{ scale: 0.98 }}
                   onClick={() => setSelectedFit(option.id)}
                   className={`
-                    relative flex flex-1 flex-col gap-4 rounded-card border p-5
+                    relative flex ${isLooseCard ? 'flex-row items-center' : 'flex-col'} gap-3 rounded-card border p-4 ${widthClass}
                   
                     ${isSelected ? 'border-white/50 bg-white/10' : 'border-white/10 bg-white/5'}
                   `}
                 >
-                  <div className="flex flex-col items-start gap-4 justify-start">
-                    <div className="text-text-primary">{option.icon}</div>
+                  <div className={`flex ${isLooseCard ? 'flex-row items-center gap-3 flex-1' : 'flex-col items-start gap-3'} justify-start`}>
+                    <div className="text-text-primary w-8 h-8 md:w-10 md:h-10 flex-shrink-0">
+                      <svg className="w-full h-full" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        {option.id === 'slim' && (
+                          <>
+                            <path
+                              d="M20 10C15.5817 10 12 13.5817 12 18C12 22.4183 15.5817 26 20 26C24.4183 26 28 22.4183 28 18C28 13.5817 24.4183 10 20 10Z"
+                              fill="currentColor"
+                            />
+                            <path
+                              d="M10 30C10 28.8954 10.8954 28 12 28H28C29.1046 28 30 28.8954 30 30V32C30 33.1046 29.1046 34 28 34H12C10.8954 34 10 33.1046 10 32V30Z"
+                              fill="currentColor"
+                            />
+                          </>
+                        )}
+                        {option.id === 'regular' && (
+                          <path
+                            d="M8 12H32V14H8V12ZM8 18H32V20H8V18ZM8 24H32V26H8V24ZM8 28H32V30H8V28Z"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                          />
+                        )}
+                        {option.id === 'loose' && (
+                          <>
+                            <path
+                              d="M12 10C10.8954 10 10 10.8954 10 12V28C10 29.1046 10.8954 30 12 30H28C29.1046 30 30 29.1046 30 28V12C30 10.8954 29.1046 10 28 10H12Z"
+                              stroke="currentColor"
+                              strokeWidth="2"
+                            />
+                            <path d="M15 20H25" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                          </>
+                        )}
+                      </svg>
+                    </div>
                     <div className="flex flex-col gap-1">
                       <span className="text-base font-medium text-text-primary text-start">
                         {option.label}
@@ -753,7 +807,7 @@ export default function OnboardingStep5({
       </div>
 
       {/* Footer */}
-      <div className="mt-8 flex items-center justify-between border-t border-[#292929] px-6 py-3">
+      <div className="mt-4 flex items-center justify-between border-t border-[#292929] px-6 py-3">
         <div className="flex items-center gap-4">
           <Button
             variant="ghost"
@@ -762,20 +816,6 @@ export default function OnboardingStep5({
           >
             Setup later
           </Button>
-          {onBack && (
-            <Button
-              variant="ghost"
-              onClick={onBack}
-              className=" p-2 pr-4 text-base font-normal text-text-secondary hover:text-text-primary transition-colors flex items-center gap-2"
-            >
-              <ChevronLeftIcon className="size-4" />
-              <span>
-                Back
-              </span>
-
-            </Button>
-          )}
-
         </div>
         <div className="flex items-center gap-2">
           <Button variant="ghost" onClick={onSkip} className="px-4 py-2 bg-white/10 text-white hover:bg-white/20 cursor-pointer">

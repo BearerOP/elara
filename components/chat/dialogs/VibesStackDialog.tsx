@@ -103,7 +103,7 @@ export function VibesStackDialog({
                             </div>
 
                             {/* Content */}
-                            <div className="flex-1 overflow-y-auto p-6">
+                            <div className="flex-shrink-0 p-6 h-[480px] flex items-center justify-center">
                                 {showCompletion ? (
                                     <div className="flex flex-col items-center gap-6 py-8">
                                         <div className="flex h-16 w-16 items-center justify-center rounded-full bg-green-500">
@@ -128,7 +128,7 @@ export function VibesStackDialog({
                                         </button>
                                     </div>
                                 ) : (
-                                    <div className="flex flex-col items-center">
+                                    <div className="flex flex-col items-center w-full h-full">
                                         <p className="text-white/60 text-sm mb-6 text-center">
                                             Swipe right on styles you love, left to skip
                                         </p>
@@ -162,6 +162,7 @@ export function VibesStackDialog({
                                 </button>
                             </div>
                         </motion.div>
+
                     </div>
                 </>
             )}

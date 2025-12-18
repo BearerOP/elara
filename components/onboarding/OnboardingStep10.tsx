@@ -127,7 +127,18 @@ export default function OnboardingStep10({
       .toUpperCase()}`
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col relative">
+      {/* Back Button - Top Left */}
+      {onBack && (
+        <button
+          onClick={onBack}
+          className="absolute top-4 left-4 md:top-6 md:left-6 z-10 p-2 text-text-secondary hover:text-text-primary transition-colors flex items-center gap-1 group"
+        >
+          <ChevronLeftIcon className="size-5" />
+          <span className="text-sm font-medium">Back</span>
+        </button>
+      )}
+
       {/* Header Section */}
       <div className="flex flex-col gap-8 px-8 pt-16">
         <div className="flex flex-col items-center gap-6">
@@ -249,16 +260,6 @@ export default function OnboardingStep10({
           >
             Setup later
           </Button>
-          {onBack && (
-            <Button
-              variant="ghost"
-              onClick={onBack}
-              className="p-2 pr-4 text-base font-normal text-text-secondary hover:text-text-primary transition-colors flex items-center gap-2"
-            >
-              <ChevronLeftIcon className="size-4" />
-              <span>Back</span>
-            </Button>
-          )}
         </div>
         <div className="flex items-center gap-2">
           <Button variant="ghost" onClick={handleSkip} className="px-4 py-2 bg-white/10 text-white hover:bg-white/20 cursor-pointer">
