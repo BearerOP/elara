@@ -47,7 +47,8 @@ export default function WelcomeModal({
         <div className="flex flex-col gap-8 px-4 md:px-8 pt-8 md:pt-16">
           <div className="flex flex-col items-center gap-2">
             {/* Logo */}
-            <Logo size="lg" />
+            <Logo size="sm" className='block md:hidden' />
+            <Logo size="lg" className='hidden md:block' />
             <span className="text-xl font-light tracking-[0.15em] text-text-tertiary">
               PROFILE
             </span>

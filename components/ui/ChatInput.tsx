@@ -244,7 +244,7 @@ export function ElaraChatInput({ onSubmit, className = '', initialValue = '' }: 
   }
 
   return (
-    <div className={`w-full max-w-[780px] pt-0  ${className} md:mb-2`}>
+    <div className={`w-full max-w-[780px] pt-0 p-1  ${className} md:mb-2`}>
       {/* Hidden file input for upload */}
       <input
         ref={fileInputRef}
@@ -299,7 +299,7 @@ export function ElaraChatInput({ onSubmit, className = '', initialValue = '' }: 
       {/* Main Chat Input Container */}
 
       {/* Inner container with background - matches border radius */}
-      <div className="relative rounded-[32px] bg-[#252525] overflow-hidden border border-white/10">
+      <div className="relative rounded-[24px] md:rounded-[32px] bg-[#252525] overflow-hidden border border-white/10">
         {/* Upload previews above input */}
         {uploadedFiles.length > 0 && (
           <div className="px-3 pt-3">
@@ -353,7 +353,7 @@ export function ElaraChatInput({ onSubmit, className = '', initialValue = '' }: 
         )}
 
         {/* Text Input Area */}
-        <motion.div className="p-6">
+        <motion.div className="p-6 pb-0 md:p-6 md:pb-2">
           <textarea
             ref={inputRef}
             value={inputValue}
@@ -368,7 +368,7 @@ export function ElaraChatInput({ onSubmit, className = '', initialValue = '' }: 
 
         {/* Bottom Toolbar */}
         <motion.div
-          className="flex items-center justify-between px-3 pb-3"
+          className="flex items-center justify-between p-2 pt-0  pb-0 md:p-4 md:py-2 md:pt-0"
         >
           {/* Left Utility Buttons */}
           <div className="relative flex items-center gap-2">

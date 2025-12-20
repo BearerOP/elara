@@ -315,9 +315,10 @@ export default function OnboardingStep5({
       )}
 
       {/* Header Section */}
-      <div className="flex flex-col gap-4 px-4 md:px-8 pt-4 md:pt-8">
+      <div className="flex flex-col gap-2 md:gap-4 px-4 md:px-8 pt-4 md:pt-8">
         <div className="flex flex-col items-center gap-3">
-          <Logo size="lg" />
+          <Logo size="sm" className='block md:hidden' />
+          <Logo size="lg" className='hidden md:block' />
           <motion.div
             layoutId="onboarding-step-pill"
             className="rounded-full bg-white/10 px-2 py-0.5"
@@ -337,7 +338,7 @@ export default function OnboardingStep5({
           </motion.h2>
           <motion.p
             layoutId="onboarding-subtitle"
-            className="max-w-[504px] w-full px-4 md:px-0 text-center text-sm md:text-base font-normal leading-[1.375] text-text-quaternary"
+            className="max-w-[504px] w-full px-4 md:px-0 text-center text-xs md:text-base font-normal leading-[1.375] text-text-quaternary"
           >
             Your height, weight, and fit preferences help us tailor the recommendations to your
             proportions.
@@ -347,7 +348,219 @@ export default function OnboardingStep5({
 
       {/* Height and Weight Inputs */}
       <div className="mt-4 flex flex-col gap-3 px-4 md:px-8">
-        <div className="flex flex-col md:flex-row gap-3">
+        {/* Mobile Height/Weight Parallel Layout */}
+        <div className="flex flex-row gap-2 md:hidden">
+          {/* Height Mobile */}
+          <div className="flex-1 rounded-card bg-[#202020] p-2.5 flex flex-col gap-2">
+            <div className="flex items-center justify-between">
+              <span className="text-sm font-medium text-text-primary">Height</span>
+              <div className="flex items-center gap-1.5 bg-white/5 rounded px-1.5 py-0.5">
+                <button
+                  type="button"
+                  onClick={() => handleHeightUnitChange('cm')}
+                  className={`text-[10px] uppercase transition-colors ${heightUnit === 'cm' ? 'text-text-primary font-medium' : 'text-text-secondary'}`}
+                >
+                  cm
+                </button>
+                <div className="w-[1px] h-2 bg-white/10" />
+                <button
+                  type="button"
+                  onClick={() => handleHeightUnitChange('ft')}
+                  className={`text-[10px] uppercase transition-colors ${heightUnit === 'ft' ? 'text-text-primary font-medium' : 'text-text-secondary'}`}
+                >
+                  ft
+                </button>
+              </div>
+            </div>
+
+            <AnimatePresence mode="wait">
+              {heightUnit === 'ft' ? (
+                <motion.div
+                  key="ft-mobile"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="flex flex-col gap-2"
+                >
+                  <div className="flex items-center justify-between bg-white/5 rounded-md p-1.5 pl-2">
+                    <div className="flex items-baseline gap-0.5">
+                      <input
+                        type="number"
+                        min="3"
+                        max="8"
+                        value={heightFeetInput}
+                        onChange={(e) => handleHeightFeetChange(e.target.value)}
+                        onBlur={(e) => {
+                          if (e.target.value === '') {
+                            setHeightFeetKey((prev) => prev + 1)
+                            setHeightFeet(0)
+                            setHeightFeetInput('0')
+                          } else if (parseInt(e.target.value) < 3) {
+                            setHeightFeetKey((prev) => prev + 1)
+                            setHeightFeet(3)
+                            setHeightFeetInput('3')
+                          } else {
+                            setHeightFeetInput(heightFeet.toString())
+                          }
+                        }}
+                        className="w-4 bg-transparent text-lg font-semibold text-text-primary outline-none p-0"
+                      />
+                      <span className="text-xs text-text-secondary">ft</span>
+                    </div>
+                    <div className="flex flex-col -my-1">
+                      <button onClick={() => handleHeightIncrement('feet')} className="p-0.5 text-text-secondary hover:text-text-primary"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M12 8L8 12H16L12 8Z" fill="currentColor" /></svg></button>
+                      <button onClick={() => handleHeightDecrement('feet')} className="p-0.5 text-text-secondary hover:text-text-primary"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M12 16L8 12H16L12 16Z" fill="currentColor" /></svg></button>
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-between bg-white/5 rounded-md p-1.5 pl-2">
+                    <div className="flex items-baseline gap-0.5">
+                      <input
+                        type="number"
+                        min="0"
+                        max="11"
+                        value={heightInchesInput}
+                        onChange={(e) => handleHeightInchesChange(e.target.value)}
+                        onBlur={(e) => {
+                          if (e.target.value === '') {
+                            setHeightInchesKey((prev) => prev + 1)
+                            setHeightInches(0)
+                            setHeightInchesInput('0')
+                          } else {
+                            setHeightInchesInput(heightInches.toString())
+                          }
+                        }}
+                        className="w-5 bg-transparent text-lg font-semibold text-text-primary outline-none p-0"
+                      />
+                      <span className="text-xs text-text-secondary">in</span>
+                    </div>
+                    <div className="flex flex-col -my-1">
+                      <button onClick={() => handleHeightIncrement('inches')} className="p-0.5 text-text-secondary hover:text-text-primary"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M12 8L8 12H16L12 8Z" fill="currentColor" /></svg></button>
+                      <button onClick={() => handleHeightDecrement('inches')} className="p-0.5 text-text-secondary hover:text-text-primary"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M12 16L8 12H16L12 16Z" fill="currentColor" /></svg></button>
+                    </div>
+                  </div>
+                </motion.div>
+              ) : (
+                <motion.div
+                  key="cm-mobile"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="flex items-center justify-between bg-white/5 rounded-md p-2 pl-3 mt-4"
+                >
+                  <div className="flex items-baseline gap-0.5">
+                    <input
+                      type="number"
+                      min="100"
+                      max="250"
+                      value={heightCmInput}
+                      onChange={(e) => handleHeightCmChange(e.target.value)}
+                      onBlur={(e) => {
+                        if (e.target.value === '') {
+                          setHeightCmKey((prev) => prev + 1)
+                          setHeightCm(0)
+                          setHeightCmInput('0')
+                        } else if (parseInt(e.target.value) < 100) {
+                          setHeightCmKey((prev) => prev + 1)
+                          setHeightCm(100)
+                          setHeightCmInput('100')
+                        } else {
+                          setHeightCmInput(heightCm.toString())
+                        }
+                      }}
+                      className="w-8 bg-transparent text-lg font-semibold text-text-primary outline-none p-0"
+                    />
+                    <span className="text-xs text-text-secondary">cm</span>
+                  </div>
+                  <div className="flex flex-col -my-1">
+                    <button onClick={() => handleHeightIncrement('cm')} className="p-0.5 text-text-secondary hover:text-text-primary"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M12 8L8 12H16L12 8Z" fill="currentColor" /></svg></button>
+                    <button onClick={() => handleHeightDecrement('cm')} className="p-0.5 text-text-secondary hover:text-text-primary"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M12 16L8 12H16L12 16Z" fill="currentColor" /></svg></button>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+
+          {/* Weight Mobile */}
+          <div className="flex-1 rounded-card bg-[#202020] p-2.5 flex flex-col gap-2">
+            <div className="flex items-center justify-between">
+              <span className="text-sm font-medium text-text-primary">Weight</span>
+              <div className="flex items-center gap-1.5 bg-white/5 rounded px-1.5 py-0.5">
+                <button
+                  type="button"
+                  onClick={() => handleWeightUnitChange('lbs')}
+                  className={`text-[10px] uppercase transition-colors ${weightUnit === 'lbs' ? 'text-text-primary font-medium' : 'text-text-secondary'}`}
+                >
+                  lbs
+                </button>
+                <div className="w-[1px] h-2 bg-white/10" />
+                <button
+                  type="button"
+                  onClick={() => handleWeightUnitChange('kg')}
+                  className={`text-[10px] uppercase transition-colors ${weightUnit === 'kg' ? 'text-text-primary font-medium' : 'text-text-secondary'}`}
+                >
+                  kg
+                </button>
+              </div>
+            </div>
+
+            <div className="flex items-center justify-between bg-white/5 rounded-md p-2 pl-3 mt-auto">
+              <div className="flex items-baseline gap-0.5">
+                {weightUnit === 'kg' ? (
+                  <input
+                    type="number"
+                    min="30"
+                    max="200"
+                    value={weightKgInput}
+                    onChange={(e) => handleWeightKgChange(e.target.value)}
+                    onBlur={(e) => {
+                      if (e.target.value === '') {
+                        setWeightKgKey((prev) => prev + 1)
+                        setWeightKg(0)
+                        setWeightKgInput('0')
+                      } else if (parseInt(e.target.value) < 30) {
+                        setWeightKgKey((prev) => prev + 1)
+                        setWeightKg(30)
+                        setWeightKgInput('30')
+                      } else {
+                        setWeightKgInput(weightKg.toString())
+                      }
+                    }}
+                    className="w-8 bg-transparent text-lg font-semibold text-text-primary outline-none p-0"
+                  />
+                ) : (
+                  <input
+                    type="number"
+                    min="66"
+                    max="440"
+                    value={weightLbsInput}
+                    onChange={(e) => handleWeightLbsChange(e.target.value)}
+                    onBlur={(e) => {
+                      if (e.target.value === '') {
+                        setWeightLbsKey((prev) => prev + 1)
+                        setWeightLbs(0)
+                        setWeightLbsInput('0')
+                      } else if (parseInt(e.target.value) < 66) {
+                        setWeightLbsKey((prev) => prev + 1)
+                        setWeightLbs(66)
+                        setWeightLbsInput('66')
+                      } else {
+                        setWeightLbsInput(weightLbs.toString())
+                      }
+                    }}
+                    className="w-9 bg-transparent text-lg font-semibold text-text-primary outline-none p-0"
+                  />
+                )}
+                <span className="text-xs text-text-secondary">{weightUnit}</span>
+              </div>
+              <div className="flex flex-col -my-1">
+                <button onClick={handleWeightIncrement} className="p-0.5 text-text-secondary hover:text-text-primary"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M12 8L8 12H16L12 8Z" fill="currentColor" /></svg></button>
+                <button onClick={handleWeightDecrement} className="p-0.5 text-text-secondary hover:text-text-primary"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M12 16L8 12H16L12 16Z" fill="currentColor" /></svg></button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="hidden md:flex flex-col md:flex-row gap-3">
           {/* Height */}
           <div className="flex-1 rounded-card bg-[#202020] p-3 md:p-4">
             <div className="mb-3 md:mb-4 flex items-center justify-between">
@@ -717,18 +930,10 @@ export default function OnboardingStep5({
 
         {/* Fit Preference */}
         <div className="flex flex-col gap-3">
-          <span className="text-lg font-medium text-text-primary">Your fit preference</span>
-          <div className="flex flex-wrap gap-3">
-            {fitOptions.map((option, index) => {
+          <span className="text-base md:text-lg font-medium text-text-primary">Your fit preference</span>
+          <div className="flex flex-wrap gap-2 md:gap-3">
+            {fitOptions.map((option) => {
               const isSelected = selectedFit === option.id
-              // Mobile: First two cards take half width, third card takes full width
-              // Desktop: All three cards take equal width (flex-1)
-              const widthClass = index < 2
-                ? 'flex-1 min-w-[calc(50%-0.375rem)] md:min-w-0'
-                : 'w-full md:w-auto md:flex-1'
-
-              // Third card (Loose) has horizontal layout, first two are vertical
-              const isLooseCard = index === 2
 
               return (
                 <motion.button
@@ -740,12 +945,12 @@ export default function OnboardingStep5({
                   whileTap={{ scale: 0.98 }}
                   onClick={() => setSelectedFit(option.id)}
                   className={`
-                    relative flex ${isLooseCard ? 'flex-row items-center' : 'flex-col'} gap-3 rounded-card border p-4 ${widthClass}
+                    relative flex items-center flex-row md:flex-col md:items-stretch gap-3 rounded-card border p-2 md:p-4 w-full md:w-auto md:flex-1
                   
                     ${isSelected ? 'border-white/50 bg-white/10' : 'border-white/10 bg-white/5'}
                   `}
                 >
-                  <div className={`flex ${isLooseCard ? 'flex-row items-center gap-3 flex-1' : 'flex-col items-start gap-3'} justify-start`}>
+                  <div className={`flex flex-row items-center gap-3 flex-1 md:flex-col md:items-start justify-start`}>
                     <div className="text-text-primary w-8 h-8 md:w-10 md:h-10 flex-shrink-0">
                       <svg className="w-full h-full" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
                         {option.id === 'slim' && (

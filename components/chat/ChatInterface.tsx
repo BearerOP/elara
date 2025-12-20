@@ -485,7 +485,7 @@ export default function ChatInterface({
   const renderMessageActions = (message: Message) => {
     if (message.isUser) {
       return (
-        <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+        <div className="flex items-center gap-1 md:opacity-0 opacity-100 md:group-hover:opacity-100 transition-opacity">
           <button
             onClick={() => message.text && handleCopyMessage(message.text)}
             className="p-1.5 hover:text-white hover:bg-white/10 rounded transition-colors"
@@ -511,7 +511,7 @@ export default function ChatInterface({
     }
 
     return (
-      <div className="flex items-center gap-1">
+      <div className="flex w-fit items-start gap-1">
         <button
           onClick={() => message.text && handleCopyMessage(message.text)}
           className="p-1.5 text-[#707070] hover:text-white hover:bg-white/10 rounded transition-colors"
@@ -648,7 +648,7 @@ export default function ChatInterface({
                             // User message - Right aligned
                             <>
                               <div className="flex flex-col gap-2 max-w-[90%]">
-                                <div className="px-5 py-5 rounded-2xl rounded-br-none bg-white/8 text-white">
+                                <div className="px-5 py-5 rounded-2xl rounded-br-none bg-white/10 text-white">
                                   <p
                                     className="text-base font-medium whitespace-pre-wrap"
                                     style={{ lineHeight: '1.5' }}
@@ -682,16 +682,8 @@ export default function ChatInterface({
                             // AI text message - Left aligned
                             <>
                               <div className="flex items-start gap-3 max-w-[90%]">
-                                <div
-                                  className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-medium"
-                                  style={{
-                                    background: 'linear-gradient(to bottom right, #D50048, #BE7281, #4D4E86)',
-                                  }}
-                                >
-                                  E
-                                </div>
                                 <div className="flex flex-col gap-2 flex-1">
-                                  <div className="px-4 py-3 rounded-2xl bg-white/5 text-white">
+                                  <div className="px-4 py-3 rounded-2xl text-white">
                                     <p
                                       className="text-base font-medium whitespace-pre-wrap"
                                       style={{ lineHeight: '1.75' }}
@@ -702,7 +694,7 @@ export default function ChatInterface({
                                 </div>
                               </div>
                               {/* Action buttons below message */}
-                              <div className="mt-2 flex justify-start ml-11">
+                              <div className="mt-2 flex justify-start px-4">
                                 {renderMessageActions(message)}
                               </div>
                             </>
@@ -802,7 +794,7 @@ export default function ChatInterface({
       <div className="flex flex-1 overflow-hidden min-w-0 lg:ml-2">
         {/* Main Chat Container */}
         <div
-          className="flex flex-1 flex-col overflow-hidden rounded-2xl relative"
+          className="flex flex-1 flex-col overflow-hidden rounded-3xl relative"
           style={{ backgroundColor: '#1a1a1a' }}
         >
           {/* Mobile Header - Shown only on mobile */}

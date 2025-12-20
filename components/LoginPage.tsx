@@ -350,7 +350,13 @@ export default function LoginPage() {
             priority
           />
           {/* Chat Input Overlay - Centered */}
-          <SignupChatInput />
+          <div className="absolute inset-0 flex items-center justify-center p-4">
+            <div className="relative w-full max-w-[755px] pointer-events-none">
+              <SignupChatInput />
+              {/* Hidden overlay to prevent interaction */}
+              <div className="absolute inset-0 z-50 bg-transparent" />
+            </div>
+          </div>
         </div>
       </div>
     </div>

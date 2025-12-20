@@ -65,7 +65,8 @@ export default function OnboardingProfileSync({ onDone }: OnboardingProfileSyncP
 
                 {/* Elara Profile label */}
                 <div className="flex flex-col items-center gap-1">
-                  <Logo size="lg" />
+                  <Logo size="sm" className='md:block hidden' />
+                  <Logo size="lg" className='block md:hidden' />
                   <span className="text-xs font-medium tracking-[0.28em] text-text-quaternary">
                     PROFILE
                   </span>
@@ -97,7 +98,8 @@ export default function OnboardingProfileSync({ onDone }: OnboardingProfileSyncP
           >
             <div className="flex flex-col items-center gap-8 px-8 pt-20 pb-16">
               <div className="flex flex-col items-center gap-4">
-                <Logo size="lg" />
+                <Logo size="sm" className='md:block hidden' />
+                <Logo size="lg" className='block md:hidden' />
                 <span className="text-xs font-medium tracking-[0.28em] text-text-quaternary">
                   PROFILE
                 </span>
@@ -105,13 +107,13 @@ export default function OnboardingProfileSync({ onDone }: OnboardingProfileSyncP
 
               <div className="flex flex-col items-center gap-3">
                 <h2 className="text-center text-lg font-medium text-text-primary">
-                  You&apos;re all set ✨
+                  You&apos;re all set ✨˝
                 </h2>
-                <p className="max-w-md text-center text-sm text-text-quaternary">
+                <p className="max-w-md text-center text-[15px] text-text-quaternary">
                   Your Elara Profile is ready. We&apos;ve matched your style, colors, and
                   favorites to create recommendations tailored just for you.
                 </p>
-                <p className="mt-1 max-w-md text-center text-[11px] text-text-disabled">
+                <p className="mt-1 max-w-md text-center text-[13px] text-text-disabled">
                   Note: You can make changes to your profile anytime from settings.
                 </p>
               </div>

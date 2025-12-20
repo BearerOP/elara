@@ -10,7 +10,7 @@ import {
   ShoppingCart,
   Calendar,
   Send,
-  Share2, 
+  Share2,
   Gift,
 } from 'lucide-react'
 
@@ -46,7 +46,8 @@ export { default as ThumbsDownIcon } from './ThumbsDownIcon'
 export { default as RemoveFileIcon } from './RemoveFileIcon'
 export { InstagramIcon } from './InstagramIcon'
 export { TikTokIcon } from './TikTokIcon'
-export { default as ArrowDoorInIcon } from './ArrowDoorIn'
+export { default as SidebarCloseIcon } from './SidebarCloseIcon'
+export { default as SidebarOpenIcon } from './SidebarOpenIcon'
 export { default as ElaraMicIcon } from './ElaraMic'
 export { default as Wardrobe } from './WardrobeIcon'
 export { default as Menu } from './MenuIcon'

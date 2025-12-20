@@ -6,7 +6,7 @@ import { Plus, Search, Bookmark, ChevronDown, MoreHorizontal, Star, Edit2, Archi
 
 import Image from "next/image"
 import Logo from "@/components/ui/Logo"
-import { ArrowDoorInIcon, Wardrobe } from "@/components/icons"
+import { SidebarCloseIcon, SidebarOpenIcon, Wardrobe } from "@/components/icons"
 import { Tooltip, TooltipTrigger, TooltipPanel } from "@/components/animate-ui/components/base/tooltip"
 import { Menu, MenuTrigger, MenuPanel, MenuItem, MenuSeparator } from "@/components/animate-ui/components/base/menu"
 import { RenameChatModal } from "./RenameChatModal"
@@ -135,17 +135,23 @@ export function Sidebar({
   ]
 
   return (
-    <div className={`flex flex-col bg-transparent transition-all duration-300 h-full max-h-screen group hover:opacity-100 ${isCollapsed ? "w-[68px] opacity-50" : "w-[268px]"}`}>
+    <div className={`flex flex-col bg-transparent transition-all duration-300 h-full max-h-screen group ${isCollapsed ? "w-[68px]" : "w-[268px]"}`}>
       {/* Header with Logo and Toggle */}
       <div className={`flex items-center justify-between flex-shrink-0 px-5 py-6 ${isCollapsed ? "px-3" : ""}`}>
-        {!isCollapsed && <Logo size="md" />}
+        {!isCollapsed && <>
+
+          <Logo size="sm" className='block md:hidden' />
+          <Logo size="lg" className='hidden md:block' />
+        </>}
         <Tooltip>
           <TooltipTrigger
             onClick={onToggle}
             className={`p-2 text-[#707070] hover:text-white hover:bg-[#1a1a1a] rounded-lg transition-all duration-200 ${isCollapsed ? "mx-auto" : ""
               }`}
           >
-            <ArrowDoorInIcon className="h-4 w-4" width={16} height={16} />
+            {
+              isCollapsed ? <SidebarOpenIcon className="h-4 w-4 hover:text-white hover:bg-white" width={18} height={18} /> :
+                <SidebarCloseIcon className="h-4 w-4 hover:text-white hover:bg-white" width={18} height={18} />}
           </TooltipTrigger>
           <TooltipPanel side="right" className="bg-[#1a1a1a] text-white border border-white/10">
             <span className="flex items-center gap-1.5">
@@ -185,8 +191,8 @@ export function Sidebar({
                     onTabChange(item.id)
                   }}
                   className={`flex items-center gap-3 px-2 py-2.5 rounded-lg transition-all duration-200 text-sm justify-center ${isActive
-                      ? "bg-[#1a1a1a] text-white"
-                      : "text-[#a0a0a0] hover:text-white hover:bg-[#1a1a1a]/50"
+                    ? "bg-[#1a1a1a] text-white"
+                    : "text-[#a0a0a0] hover:text-white hover:bg-[#1a1a1a]/50"
                     }`}
                 >
                   {index === 0 ? (
@@ -200,7 +206,10 @@ export function Sidebar({
                       }} />
                     </div>
                   ) : (
-                    <IconComponent className={`h-4 w-4 flex-shrink-0 ${isActive ? 'fill-white' : ''}`} />
+                    <IconComponent
+                      className={`h-4 w-4 flex-shrink-0 ${isActive ? 'fill-white' : ''}`}
+                      filled={isActive}
+                    />
                   )}
                 </TooltipTrigger>
                 <TooltipPanel side="right" className="bg-[#1a1a1a] text-white border border-white/10">

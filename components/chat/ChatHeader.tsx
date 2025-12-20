@@ -1,8 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { motion } from 'framer-motion'
-import { ExternalLink, Star, Gift, MessageSquare, Settings, LogOut, User } from "lucide-react"
+import { Star, Gift, MessageSquare, Settings, LogOut, User } from "lucide-react"
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
 import { Menu, MenuTrigger, MenuPanel, MenuItem, MenuSeparator } from '@/components/animate-ui/components/base/menu'
 import ReferralModal from "./ReferralModal"

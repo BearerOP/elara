@@ -73,13 +73,13 @@ export default function ReferralModal({ isOpen, onClose }: ReferralModalProps) {
               onClick={(e) => e.stopPropagation()}
             >
               {/* Header with gradient background */}
-              <div 
+              <div
                 className="relative w-full overflow-hidden rounded-t-2xl"
                 style={{ height: '197px' }}
               >
                 {/* Gradient background with image overlay */}
                 <div className="absolute inset-0">
-                  <img 
+                  <img
                     className="object-cover w-full h-full"
                     src="/images/gradient-background.svg"
                     alt="Gradient background"
@@ -105,7 +105,7 @@ export default function ReferralModal({ isOpen, onClose }: ReferralModalProps) {
 
                 {/* Title and Logo */}
                 <div className="absolute bottom-5 left-5 right-5 flex items-end justify-between">
-                  <h2 
+                  <h2
                     className="text-2xl font-semibold text-white/90"
                     style={{ lineHeight: '1.17' }}
                   >
@@ -113,7 +113,8 @@ export default function ReferralModal({ isOpen, onClose }: ReferralModalProps) {
                     <br />
                     Share the Style
                   </h2>
-                  <Logo size="lg" />
+                  <Logo size="sm" className='md:block hidden' />
+                  <Logo size="lg" className='block md:hidden' />
                 </div>
               </div>
 
@@ -121,13 +122,13 @@ export default function ReferralModal({ isOpen, onClose }: ReferralModalProps) {
               <div className="p-6 space-y-6">
                 {/* How it works */}
                 <div className="space-y-3">
-                  <h3 
+                  <h3
                     className="text-base font-normal text-white/60"
                     style={{ lineHeight: '1.26' }}
                   >
                     How it works :
                   </h3>
-                  <div 
+                  <div
                     className="text-base font-medium text-white/80"
                     style={{ lineHeight: '2em' }}
                   >
@@ -148,7 +149,7 @@ export default function ReferralModal({ isOpen, onClose }: ReferralModalProps) {
 
                 {/* Your invite link */}
                 <div className="space-y-3">
-                  <h3 
+                  <h3
                     className="text-base font-normal text-white/60"
                     style={{ lineHeight: '1.26' }}
                   >
@@ -157,7 +158,7 @@ export default function ReferralModal({ isOpen, onClose }: ReferralModalProps) {
                   <div className="flex items-center gap-4">
                     <div className="flex-1 flex items-center gap-4 px-4 py-3 rounded-xl bg-white/10">
                       <LinkIcon className="h-5 w-5 text-white flex-shrink-0" />
-                      <span 
+                      <span
                         className="text-base font-medium text-white truncate"
                         style={{ lineHeight: '1.625' }}
                       >
@@ -167,7 +168,7 @@ export default function ReferralModal({ isOpen, onClose }: ReferralModalProps) {
                     <button
                       onClick={handleCopy}
                       className="px-4 py-2.5 rounded-xl bg-white font-medium text-base hover:bg-white/20 cursor-pointer transition-all duration-300 flex items-center gap-2 flex-shrink-0"
-                      style={{ 
+                      style={{
                         color: 'rgba(0, 0, 0, 0.8)',
                         lineHeight: '1.5',
                       }}
@@ -193,7 +194,7 @@ export default function ReferralModal({ isOpen, onClose }: ReferralModalProps) {
                 </div>
 
                 {/* Terms and conditions */}
-                <button 
+                <button
                   className="text-sm font-medium text-white/60 hover:text-white/80 cursor-pointer transition-all duration-300"
                   style={{ lineHeight: '1.86' }}
                 >

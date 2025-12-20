@@ -158,7 +158,7 @@ export default function CardStack({
   }
 
   return (
-    <div className="relative flex h-full items-center  justify-center gap-6 w-full ">
+    <div className="relative flex h-full items-center  justify-center gap-24 w-full ">
       {/* Left Arrow Button */}
       {showArrows && (
         <div className="hidden md:flex flex-col items-center gap-1.5">
@@ -183,7 +183,7 @@ export default function CardStack({
       )}
 
       {/* Card Stack */}
-      <div className="relative flex-1 w-full -left-6  max-w-[180px] h-[300px]">
+      <div className="relative flex-1 w-full max-w-[280px] h-[320px] mb-4">
         {visibleCards.map((card, stackIndex) => {
           const isTopCard = stackIndex === 0
           const scale = 1 - stackIndex * 0.1

@@ -109,7 +109,7 @@ export function MobileSidebar({
                     >
                         {/* Header with Logo and Close */}
                         <div className="flex items-center justify-between px-5 py-6">
-                            <Logo size="md" />
+                            <Logo size="sm" />
                             <button
                                 onClick={onClose}
                                 className="p-2 text-[#707070] hover:text-white hover:bg-[#1a1a1a] rounded-lg transition-all duration-200"

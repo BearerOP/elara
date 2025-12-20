@@ -142,12 +142,13 @@ export default function OnboardingStep10({
       {/* Header Section */}
       <div className="flex flex-col gap-8 px-8 pt-16">
         <div className="flex flex-col items-center gap-6">
-          <Logo size="lg" />
+          <Logo size="sm" className='block md:hidden' />
+          <Logo size="lg" className='hidden md:block' />
           <motion.div
             layoutId="onboarding-step-pill"
             className="rounded-full bg-white/10 px-2 py-0.5"
           >
-            <span className="rounded-full bg-white/10 px-2.5 py-1 text-sm font-normal text-text-secondary">
+            <span className="rounded-full px-2.5 py-1 text-sm font-normal text-text-secondary">
               STEP 10/10
             </span>
           </motion.div>

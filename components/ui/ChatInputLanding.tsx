@@ -1,8 +1,5 @@
-'use client'
-
-import { AnimatePresence, motion } from 'framer-motion'
-import type React from 'react'
-import { useEffect, useRef, useState } from 'react'
+import { AnimatePresence, motion } from 'motion/react'
+import React, { useEffect, useRef, useState } from 'react'
 import {
   ElaraCalendarIcon,
   ElaraMessageIcon,
@@ -10,6 +7,7 @@ import {
   ElaraPaperclipIcon,
   ElaraSendIcon,
   ElaraShoppingCartIcon,
+  RemoveFileIcon
 } from '../icons'
 
 const TYPEWRITER_PHRASES = [
@@ -20,8 +18,6 @@ const TYPEWRITER_PHRASES = [
   'shop for date night...',
   'organize my closet...',
 ]
-
-import RemoveFileIcon from '../icons/RemoveFileIcon'
 
 interface UtilityButton {
   id: string
@@ -121,6 +117,187 @@ export function ChatInputLanding({ onSubmit, className = '', initialValue = '' }
   const [showOversizeToast, setShowOversizeToast] = useState(false)
   const inputRef = useRef<HTMLTextAreaElement>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
+  const [isListening, setIsListening] = useState(false)
+  const recognitionRef = useRef<any>(null)
+  const manualStopRef = useRef(false)
+  const lastErrorRef = useRef<string | null>(null)
+  const retryCountRef = useRef<number>(0)
+
+  // Cleanup recognition on unmount
+  useEffect(() => {
+    return () => {
+      if (recognitionRef.current) {
+        try {
+          recognitionRef.current.stop()
+        } catch (e) {
+          // Ignore errors on cleanup
+        }
+      }
+    }
+  }, [])
+
+  const stopListening = () => {
+    manualStopRef.current = true
+    setIsListening(false)
+    if (recognitionRef.current) {
+      try {
+        recognitionRef.current.stop()
+        recognitionRef.current = null
+      } catch (e) {
+        console.error('Error stopping recognition:', e)
+      }
+    }
+  }
+
+  const startListening = () => {
+    // Check browser support
+    const SpeechRecognition =
+      (window as any).SpeechRecognition ||
+      (window as any).webkitSpeechRecognition
+
+    if (!SpeechRecognition) {
+      alert('Speech recognition is not supported in this browser. Please use Chrome, Edge, or Safari.')
+      return
+    }
+
+    // Stop any existing recognition
+    if (recognitionRef.current) {
+      try {
+        recognitionRef.current.stop()
+      } catch (e) {
+        // Ignore
+      }
+    }
+
+    // Create new recognition instance
+    const recognition = new SpeechRecognition()
+    recognition.continuous = true
+    recognition.interimResults = true
+    recognition.lang = 'en-US'
+    recognition.maxAlternatives = 1
+
+    manualStopRef.current = false
+    lastErrorRef.current = null
+    retryCountRef.current = 0
+
+    // Store the base text when starting
+    const baseText = inputValue
+
+    recognition.onstart = () => {
+      console.log('Speech recognition started')
+      setIsListening(true)
+    }
+
+    recognition.onresult = (event: any) => {
+      let interimTranscript = ''
+      let finalTranscript = ''
+
+      // Process all results
+      for (let i = event.resultIndex; i < event.results.length; i++) {
+        const transcript = event.results[i][0].transcript
+        if (event.results[i].isFinal) {
+          finalTranscript += transcript + ' '
+        } else {
+          interimTranscript += transcript
+        }
+      }
+
+      // Combine all final transcripts from the beginning
+      let allFinalTranscript = ''
+      for (let i = 0; i < event.results.length; i++) {
+        if (event.results[i].isFinal) {
+          allFinalTranscript += event.results[i][0].transcript + ' '
+        }
+      }
+
+      // Combine base text with all transcripts
+      const newText = baseText
+        ? `${baseText} ${allFinalTranscript}${interimTranscript}`.trim()
+        : `${allFinalTranscript}${interimTranscript}`.trim()
+
+      setInputValue(newText)
+    }
+
+    recognition.onerror = (event: any) => {
+      console.warn('Speech recognition error:', event.error)
+      lastErrorRef.current = event.error
+
+      if (event.error === 'not-allowed' || event.error === 'service-not-allowed') {
+        manualStopRef.current = true
+        setIsListening(false)
+        alert('Microphone access denied. Please enable microphone permissions in your browser settings.')
+      } else if (event.error === 'network') {
+        // Don't alert immediately, let onend handle the retry
+        console.warn('Network error detected in speech recognition')
+      }
+    }
+
+    recognition.onend = () => {
+      console.log('Speech recognition ended')
+
+      // If manually stopped, just clean up
+      if (manualStopRef.current) {
+        setIsListening(false)
+        recognitionRef.current = null
+        return
+      }
+
+      // Handle restarts for continuous listening or error recovery
+      const isNetworkError = lastErrorRef.current === 'network'
+
+      if (isNetworkError) {
+        if (retryCountRef.current >= 5) {
+          console.error('Too many network errors, stopping.')
+          setIsListening(false)
+          recognitionRef.current = null
+          alert('Connection unstable. Speech recognition stopped.')
+          return
+        }
+
+        retryCountRef.current += 1
+        console.log(`Retrying speech recognition (attempt ${retryCountRef.current}) in 1s...`)
+
+        setTimeout(() => {
+          if (manualStopRef.current) return
+          try {
+            recognition.start()
+          } catch (e) {
+            console.error('Failed to restart recognition:', e)
+            setIsListening(false)
+          }
+        }, 1000)
+        return
+      }
+
+      // Immediate restart for other non-fatal ends (like no-speech timeout)
+      try {
+        recognition.start()
+      } catch (e) {
+        // If it fails to start immediately, just stop
+        console.error('Failed to restart recognition:', e)
+        setIsListening(false)
+        recognitionRef.current = null
+      }
+    }
+
+    // Start recognition
+    try {
+      recognitionRef.current = recognition
+      recognition.start()
+    } catch (e) {
+      console.error('Failed to start speech recognition:', e)
+      alert('Failed to start speech recognition. Please try again.')
+      setIsListening(false)
+    }
+  }
+
+  const toggleListening = () => {
+    if (isListening) {
+      stopListening()
+    } else {
+      startListening()
+    }
+  }
 
   // Typewriter effect
   useEffect(() => {
@@ -167,6 +344,11 @@ export function ChatInputLanding({ onSubmit, className = '', initialValue = '' }
 
   const handleSubmit = () => {
     if (inputValue.trim()) {
+      // Stop listening if active
+      if (isListening) {
+        stopListening()
+      }
+
       if (onSubmit) {
         onSubmit(inputValue.trim())
       }
@@ -227,6 +409,7 @@ export function ChatInputLanding({ onSubmit, className = '', initialValue = '' }
         ref={fileInputRef}
         type="file"
         multiple
+        accept="image/*"
         className="hidden"
         onChange={(e) => {
           const files = e.target.files
@@ -276,18 +459,15 @@ export function ChatInputLanding({ onSubmit, className = '', initialValue = '' }
       {/* Main Chat Input Container */}
       <motion.div
         layout
-        className="relative rounded-[36px] border border-transparent shadow-[0_24px_80px_rgba(0,0,0,0.6)] w-full lg:w-[755px] mx-auto backdrop-blur-3xl p-1.5 font-outfit"
+        className="relative rounded-[32px] border border-transparent shadow-[0_24px_80px_rgba(0,0,0,0.6)] w-full lg:w-[755px] mx-auto backdrop-blur-3xl pt-6 px-6 pb-4 font-outfit flex flex-col items-start gap-[34px]"
         style={{
-          // background:
-          //   'linear-gradient(135deg, rgba(14,14,20,0.8), rgba(14,14,20,0.7)) padding-box, linear-gradient(173deg, rgba(213, 0, 72, 1) 1%, rgba(190, 114, 129, 1) 40%, rgba(77, 78, 134, 1) 79%) border-box',
-          border: '1px solid #D50048',
           background: 'rgba(0, 0, 0, 0.72)',
           backdropFilter: 'blur(50px)',
         }}
       >
         {/* Upload previews above input */}
         {uploadedFiles.length > 0 && (
-          <div className="px-2 sm:px-3 pt-2 sm:pt-3">
+          <div className="w-full">
             <div className="grid grid-cols-4 sm:grid-cols-6 lg:grid-cols-8 gap-1 sm:gap-1.5">
               {uploadedFiles.map((file) => {
                 const ext = file.name.split('.').pop()?.toUpperCase() ?? ''
@@ -338,7 +518,7 @@ export function ChatInputLanding({ onSubmit, className = '', initialValue = '' }
         )}
 
         {/* Text Input Area */}
-        <motion.div className="p-3 sm:p-4 lg:p-6">
+        <motion.div className="w-full">
           <textarea
             ref={inputRef}
             value={inputValue}
@@ -346,13 +526,13 @@ export function ChatInputLanding({ onSubmit, className = '', initialValue = '' }
             onKeyDown={handleKeyDown}
             placeholder={placeholder}
             rows={1}
-            className="w-full bg-transparent text-sm sm:text-base leading-[1.26] text-white/90 placeholder-white/40 outline-none resize-none"
+            className="w-full bg-transparent text-sm sm:text-base leading-[1.26] text-white/90 placeholder-white/40 outline-none resize-none font-outfit"
             style={{ minHeight: '24px', maxHeight: '200px' }}
           />
         </motion.div>
 
         {/* Bottom Toolbar */}
-        <div className="flex items-center justify-between px-2 sm:px-3 pb-2 sm:pb-3">
+        <div className="flex items-center justify-between w-full">
           {/* Left Utility Buttons */}
           <div className="relative flex items-center gap-1.5 sm:gap-2">
             {/* Standalone upload square (upload tooltip handled by shared panel below) */}
@@ -408,7 +588,9 @@ export function ChatInputLanding({ onSubmit, className = '', initialValue = '' }
                       onClick={() => setActiveButton(button.id)}
                       className="relative flex h-7 sm:h-8 items-center justify-center rounded-lg sm:rounded-[10px] lg:rounded-[12px] px-2 sm:px-2.5 lg:px-3 transition-all duration-200 text-white/85"
                     >
-                      {button.icon}
+                      <div className="w-5 h-5 flex items-center justify-center">
+                        {button.icon}
+                      </div>
                     </button>
                   </div>
                 )
@@ -461,8 +643,6 @@ export function ChatInputLanding({ onSubmit, className = '', initialValue = '' }
                           skipped.
                         </div>
                       )}
-
-                      {/* Previews are rendered inline inside the chat input, below the toolbar */}
                     </>
                   ) : (
                     <>
@@ -489,20 +669,91 @@ export function ChatInputLanding({ onSubmit, className = '', initialValue = '' }
           <div className="flex items-center gap-1.5 sm:gap-2">
             <button
               type="button"
-              className="rounded-full p-2 sm:p-2.5 text-white/50 transition-colors hover:bg-white/10 hover:text-white/80"
+              onClick={toggleListening}
+              className={`relative rounded-full p-2 sm:p-2.5 transition-all duration-300 ${isListening
+                ? 'text-red-500 bg-red-500/10'
+                : 'text-white/50 hover:bg-white/10 hover:text-white/80'
+                }`}
             >
-              <ElaraMicIcon />
+              {isListening && (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  className="absolute inset-0 rounded-full border-[2px] border-red-500/30 border-t-red-500 animate-spin"
+                />
+              )}
+              <div className="relative z-10 size-6 flex items-center justify-center">
+                <AnimatePresence mode="wait">
+                  {isListening ? (
+                    <motion.div
+                      key="stop"
+                      initial={{ scale: 0.5, opacity: 0, rotate: -90 }}
+                      animate={{ scale: 1, opacity: 1, rotate: 0 }}
+                      exit={{ scale: 0.5, opacity: 0, rotate: 90 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      <svg
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="size-5"
+                      >
+                        <rect
+                          x="6"
+                          y="6"
+                          width="12"
+                          height="12"
+                          rx="2"
+                          fill="currentColor"
+                        />
+                      </svg>
+                    </motion.div>
+                  ) : (
+                    <motion.div
+                      key="mic"
+                      initial={{ scale: 0.5, opacity: 0, rotate: -90 }}
+                      animate={{ scale: 1, opacity: 1, rotate: 0 }}
+                      exit={{ scale: 0.5, opacity: 0, rotate: 90 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      <ElaraMicIcon />
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
             </button>
             <button
               type="button"
               onClick={handleSubmit}
-              className="rounded-full bg-white/10 p-2 sm:p-2.5 text-white/70 transition-all hover:bg-white/20 hover:text-white"
+              disabled={!inputValue.trim()}
+              className={`rounded-full p-2 sm:p-2.5 transition-all duration-500 ${inputValue.trim()
+                  ? 'bg-white/80 text-black hover:bg-white'
+                  : 'bg-white/10 text-white/50 cursor-not-allowed'
+                }`}
             >
-              <ElaraSendIcon />
+              <div
+                className={`w-5 h-5 flex items-center justify-center transition-transform duration-500 ${inputValue.trim() ? '-rotate-[45deg] scale-[1.2] translate-y-[0.8px]' : ''
+                  }`}
+              >
+                <ElaraSendIcon />
+              </div>
             </button>
           </div>
         </div>
 
+        {/* Gradient Border - Placed last to overlap if needed, but using pointer-events-none */}
+        <div
+          className="absolute -inset-[1px] rounded-[32px] p-[1px] pointer-events-none"
+          style={{
+            background: 'linear-gradient(120deg, #d50048 0%, #440075 100%)',
+            mask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+            maskComposite: 'exclude',
+            WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+            WebkitMaskComposite: 'xor',
+          }}
+        />
       </motion.div>
       <AnimatePresence>
         {showOversizeToast && (
@@ -570,4 +821,3 @@ export function ChatInputLanding({ onSubmit, className = '', initialValue = '' }
 }
 
 export default ChatInputLanding
-
